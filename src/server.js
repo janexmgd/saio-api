@@ -24,12 +24,12 @@ server.get('/', (req, res, next) => {
 server.use(protectMiddleware);
 server.post('/service', async (req, res, next) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     if (!req.body?.url) {
       throw createError('400', 'invalid input');
     }
     const { url } = req.body;
-    const data = await selectService(url);
+    const data = await selectService(url.trim());
     successResponse(res, {
       code: 200,
       ...data,
