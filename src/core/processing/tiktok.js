@@ -7,7 +7,7 @@ const tiktokService = async (url) => {
     const cookie = new Cookie({});
     const vtFormat = /^https:\/\/vt\.tiktok\.com\/[A-Za-z0-9]+\/?$/;
     const tiktokVideoUrlFormat =
-      /^https:\/\/www\.tiktok\.com\/@([A-Za-z0-9_]+)\/video\/(\d+)\/?$/;
+      /^https:\/\/www\.tiktok\.com\/@([A-Za-z0-9_.]+)\/video\/(\d+)\/?$/;
     let postId;
     if (vtFormat.test(url)) {
       const data = await fetch(url, {
@@ -18,7 +18,7 @@ const tiktokService = async (url) => {
       });
       const html = await data.text();
       if (!html) {
-        return { error: 'fetch fail' };
+        return { error: 'tiktok not returning html' };
       }
 
       if (html.startsWith('<a href="https://')) {
@@ -26,7 +26,7 @@ const tiktokService = async (url) => {
         if (tiktokVideoUrlFormat.test(extractedUrl)) {
           postId = extractedUrl.split('/').pop();
         } else {
-          return { error: 'fetch failed' };
+          return { error: 'unkown url response' };
         }
       }
       if (!postId) {
@@ -80,6 +80,8 @@ const tiktokService = async (url) => {
       },
     };
   } catch (error) {
+    console.log(error.message);
+
     throw createError(500, 'failed fetch');
   }
 };

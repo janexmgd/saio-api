@@ -29,7 +29,11 @@ server.post('/service', async (req, res, next) => {
       throw createError('400', 'invalid input');
     }
     const { url } = req.body;
-    const data = await selectService(url.trim());
+    const data = await selectService(url);
+    if (data.error) {
+      throw createError(500, data.error);
+    }
+
     successResponse(res, {
       code: 200,
       ...data,
