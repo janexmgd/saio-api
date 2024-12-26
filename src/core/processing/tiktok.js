@@ -37,11 +37,16 @@ const tiktokService = async (url) => {
     } else {
       if (tiktokVideoUrlFormat.test(url)) {
         postId = url.split('/').pop();
-      }
-      if (tiktokPhotoUrlFormat.test(url)) {
+        if (!postId || isNaN(postId)) {
+          return { error: 'invalid postId from video URL' };
+        }
+      } else if (tiktokPhotoUrlFormat.test(url)) {
         postId = url.split('/').pop();
+        if (!postId || isNaN(postId)) {
+          return { error: 'invalid postId from photo URL' };
+        }
       } else {
-        return { error: 'malformat url' };
+        return { error: 'malformatted url' };
       }
     }
 
