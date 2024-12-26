@@ -4,6 +4,7 @@ export default async (url) => {
   const tiktokFormatUrls = [
     /^https:\/\/vt\.tiktok\.com\/[A-Za-z0-9]+\/?$/,
     /^https:\/\/www\.tiktok\.com\/@([A-Za-z0-9_.]+)\/video\/(\d+)\/?$/,
+    /^https:\/\/www\.tiktok\.com\/@([A-Za-z0-9_.]+)\/photo\/(\d+)\/?$/,
   ];
   for (const tiktokFormatUrl of tiktokFormatUrls) {
     if (tiktokFormatUrl.test(url)) {

@@ -8,6 +8,8 @@ const tiktokService = async (url) => {
     const vtFormat = /^https:\/\/vt\.tiktok\.com\/[A-Za-z0-9]+\/?$/;
     const tiktokVideoUrlFormat =
       /^https:\/\/www\.tiktok\.com\/@([A-Za-z0-9_.]+)\/video\/(\d+)\/?$/;
+    const tiktokPhotoUrlFormat =
+      /^https:\/\/www\.tiktok\.com\/@([A-Za-z0-9_.]+)\/photo\/(\d+)\/?$/;
     let postId;
     if (vtFormat.test(url)) {
       const data = await fetch(url, {
@@ -35,10 +37,14 @@ const tiktokService = async (url) => {
     } else {
       if (tiktokVideoUrlFormat.test(url)) {
         postId = url.split('/').pop();
+      }
+      if (tiktokPhotoUrlFormat.test(url)) {
+        postId = url.split('/').pop();
       } else {
-        return { error: 'fetch failed' };
+        return { error: 'malformat url' };
       }
     }
+
     const res = await fetch(`https://tiktok.com/@i/video/${postId}`, {
       headers: {
         'User-Agent': userAgent.split(' Chrome/1')[0],
@@ -75,6 +81,7 @@ const tiktokService = async (url) => {
     return {
       data: {
         service: 'tiktok',
+        type: detail.video?.playAddr == '' ? 'image' : 'video',
         content: detail,
         cookie: cookie,
       },
