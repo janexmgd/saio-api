@@ -14,13 +14,14 @@ if (!port) {
 const server = express();
 server.use(express.json());
 server.use(cors());
-server.use(protectMiddleware);
+
 server.get('/', (req, res, next) => {
   successResponse(res, {
     code: 200,
     message: 'ok',
   });
 });
+server.use(protectMiddleware);
 server.post('/service', async (req, res, next) => {
   try {
     console.log(req.body);
