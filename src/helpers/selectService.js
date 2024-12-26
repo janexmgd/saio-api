@@ -1,5 +1,4 @@
-import tiktokService from '../core/services/tiktok.js';
-
+import tiktokService from '../core/processing/tiktok.js';
 export default async (url) => {
   const tiktokFormatUrls = [
     /^https:\/\/vt\.tiktok\.com\/[A-Za-z0-9]+\/?$/,
